@@ -4,6 +4,7 @@
 using namespace std;
 
 // Author: Amber Garcia
+// Last update: 3/24/2021
 // Excercise for Discrete Mathematics
 // Detects Prime Numbers, Computes Greatest Common Denominator, and finds Bezout's coefficients of two integers.
 
@@ -23,14 +24,12 @@ using namespace std;
     - s and t miscalculating bezout coefficients at j = 2 and a%b = 0 [?]
    - t values uncalculated, q values store just fine.
   3/23/2021 9:41 PM EST
+   -Everything fixed and works as it should.
 */
 
 //----------------------------------------------------------------------------------------------
 /* bool isprime(int n);
-    - Calculates sqrt(n)
-    - Detects if n is divisible by 2
-    - Detects if 0 or 1, neither are prime Numbers
-    - 
+    - Detects if prime or composite. 
 */
 bool isprime(int n){
 
@@ -52,6 +51,10 @@ bool isprime(int n){
 }
 
 //----------------------------------------------------------------------------------------------
+/* void gcd_eea();
+    - Given two integers, computes and prints process to find greatest common denominator of the two.
+    - Additionally detects if two integers are relatively prime.
+*/
 void gcd_eea(){
     int user_input_a, user_input_b;
 
@@ -74,13 +77,12 @@ void gcd_eea(){
 
       }
       //gcd(a,b) = gcd(b,a mod b) = ....
-      int j = 0;
       int q, r; //quotient and remainder
       while(true){
-        q = a / b;
+        q = a / b; 
         if(a % b == 0){
+          //Ending condition
           cout << a << " = " << b << "*" << q << " + " << (a%b) << endl;
-
           break;
         }
         if(a % b != 0){
@@ -89,20 +91,21 @@ void gcd_eea(){
         cout << a << " = " << b << "*" << q << " + " << r << endl;
         a = b;
         b = r;
-
-        j++;
       }
       cout << "The greatest common denominator of " << user_input_a << " and " << user_input_b << " is " << r << endl << endl;
     }
 }
 
 //----------------------------------------------------------------------------------------------
+/* void bezout_eeea;
+    - In addition to gcd_eea(), computes bezouts coefficients:
+    - such that gcd(a,b) = as + bt for a > b
+    - This code uses vectors in order to store the values of q, s, and t to reuse them.
+*/
 void bezout_eeea(){
-    //This will be in table form instead, in order to compute s and t.
-    //The program will be parallel to eea, but will also compute s,t and j+1 for s,t.
 
     int user_input_a, user_input_b;
-
+   
     cout << "Enter first integer." << endl;
     cin >> user_input_a;
     cout << "Enter second integer." << endl;
@@ -111,7 +114,7 @@ void bezout_eeea(){
     if(isprime(user_input_a) && isprime(user_input_b)){
       cout << "Integers:" << user_input_a << " and " << user_input_b << " are relatively prime, with their greatest common divider being 1." << endl << endl;
     }else{
-      //largest integer becomes divisor [a]. smallest is dividend [b]
+      //largest integer becomes dividend [a]. smallest is divisor [b]
       int a, b;
       if(user_input_a > user_input_b){
         a = user_input_a;
@@ -120,45 +123,56 @@ void bezout_eeea(){
         a = user_input_b;
         b = user_input_a;
       }
+      
       // gcd(a,b) = at + bs where a > b
-      int j = 0;
+       
+      int j = 0; //Index
       int q,r; //quotient and remainder
-      //int q_tracker[2]; // q tracking
-      //int st_tracker[2][2]; // s is row 0, t is row 1
-      vector<int> q_tracker;
-      vector<int> s_tracker;
-      s_tracker.push_back(1);
+      int s,t; //bezout coefficients s and t
+       
+      /* In order to find Bezout's Coefficients:
+      * s[j] = s[j-2] - q[j-2]*s[j-1]
+      * t[j] = t[j-2] - q[j-2]*t[j-1]
+      * Only if j > 2.
+      */
+      vector<int> q_tracker; //Keep track of quotient
+       
+      // Initialize the first two values of s and t
+      vector<int> s_tracker; //s[0] = 1, s[1] = 0
+      s_tracker.push_back(1); 
       s_tracker.push_back(0);
-      vector<int> t_tracker;
+       
+      vector<int> t_tracker; //t[0] = 0, t[1] = 1
       t_tracker.push_back(0);
       t_tracker.push_back(1);
-      int s,t;
+      
 
       while(true){
 
 
         q = a / b;
         q_tracker.push_back(q);
+         
         if(j>=2){
+          // Calculate s and j
           s = s_tracker.at(j-2) - q_tracker.at(j-2) * s_tracker.at(j-1);
           s_tracker.push_back(s);
           t = t_tracker.at(j-2) - q_tracker.at(j-2) * t_tracker.at(j-1);
           t_tracker.push_back(t);
-
         }
         if(a % b == 0){
           if(j>=1){ //or if j != 0
             j++;
-
+            //Calculate s and j again before ending
             s = s_tracker.at(j-2) - q_tracker.at(j-2) * s_tracker.at(j-1);
             s_tracker.push_back(s);
             t = t_tracker.at(j-2) - q_tracker.at(j-2) * t_tracker.at(j-1);
             t_tracker.push_back(t);
           }else{
+            //j = 0
             s = r;
             t = q_tracker.at(j);
           }
-
           cout << a << " = " << b << "*" << q << " + " << (a%b) << endl;
           break;
         }
@@ -172,10 +186,12 @@ void bezout_eeea(){
         j++;
       }
       cout << "Bezout's Coefficients of " << user_input_a << " and " << user_input_b << " is " << "s = " << s << " and t = " << t << endl << endl;
-      //cout << "gcd(" << a << ", " << b << ") = " << a << "*" << s << " + " << b << "*" << t << " = " << r << endl;
     }
 }
 //----------------------------------------------------------------------------------------------
+/* int ask_method();
+    - Asks user for what they want to compute [GCD or BEZOUT]
+*/
 int ask_method(){
   string user_input_mathematical;
   bool yess = false;

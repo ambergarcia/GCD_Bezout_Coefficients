@@ -8,25 +8,6 @@ using namespace std;
 // Excercise for Discrete Mathematics
 // Detects Prime Numbers, Computes Greatest Common Denominator, and finds Bezout's coefficients of two integers.
 
-
-/* ERROR LOG AND FIXES
-3/18/2021 9:54 PM EST
-   - askmethod() isprime() gcd_eea() works for all integers properly.
-   - bezout_eeea() needs better optimization
-      - Requires that you save at least 3 values of q, s, and t into the backlogs to pull back out
-      - when calculating s and t.
-  3/18/2021 12:13 AM EST
-   - bezout_eeea's for loop for storing information for each while loop is not consistent, and is incorrect. Needs fixing.:
-  3/21/2021 11:18 PM EST
-   - Switched arrays for vectors for better optimization. Compiles fine, but computation error for s value.
-    - In order to fix s, we need to allow for the loop to reoccur [j++] in order to access the new q for a new value
-    - s and t when 0 < j < 1 is incorrect fix
-    - s and t miscalculating bezout coefficients at j = 2 and a%b = 0 [?]
-   - t values uncalculated, q values store just fine.
-  3/23/2021 9:41 PM EST
-   -Everything fixed and works as it should.
-*/
-
 //----------------------------------------------------------------------------------------------
 /* bool isprime(int n);
     - Detects if prime or composite. 

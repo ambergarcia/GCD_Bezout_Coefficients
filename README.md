@@ -1,7 +1,7 @@
 # Bezout_Coefficients
 Prime Number detection, GCD calculation, and Bezout Coefficient calculation
 
-Compiled through command line, using g++ compiling and execution.
+Compiled through command line, using g++ 
 
 - In the future may add:
 

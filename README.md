@@ -1,5 +1,6 @@
-# Bezout_Coefficients
+# Greatest Common Denominator and Bezout Coefficients
 Prime Number detection, GCD calculation, and Bezout Coefficient calculation
+//Last updated 3/24/2021
 
 Compiled through command line, using g++ 
 
